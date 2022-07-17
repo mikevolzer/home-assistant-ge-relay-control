@@ -1,0 +1,13 @@
+[Unit]
+Description=Systemd service to my custom relay or light control software
+After=multi-user.target
+
+[Service]
+User=pi
+Group=pi
+Type=simple
+ExecStart=/bin/sh /home/pi/Development/light-control/start.sh
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
