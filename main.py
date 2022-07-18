@@ -1,7 +1,8 @@
 import paho.mqtt.client as mqtt
-import RPi.GPIO as gpio
 import time
 import json
+import serial
+
 
 RELAY_DELAY_TIME_MS = 100.0
 BROKER_HOST = "127.0.0.1"
@@ -12,21 +13,17 @@ class Relay:
         self.gpio_on = gpio_on
         self.gpio_off = gpio_off
 
-        gpio.setup(self.gpio_on, gpio.OUT)
-        gpio.setup(self.gpio_off, gpio.OUT)
-
     def set_state(self, state):
         pin_to_pulse = self.gpio_on if state else self.gpio_off
-        gpio.output(pin_to_pulse, True)
-        time.sleep(RELAY_DELAY_TIME_MS / 1000.0)
-        gpio.output(pin_to_pulse, False)
+        arduino.write(f'<{pin_to_pulse}>'.encode())
 
 
-gpio.setmode(gpio.BOARD)
+arduino = serial.Serial("/dev/ttyACM0", 115200, timeout=0.1)
+time.sleep(0.1)
+if arduino.isOpen():
+    print(f'{arduino.port} connected!')
 
-# Set up all the relays
 relays = {}
-
 with open('config.json', 'r') as f:
     config = json.load(f)
     RELAY_DELAY_TIME_MS = config["delay_time_ms"]
@@ -36,18 +33,12 @@ with open('config.json', 'r') as f:
 
 
 def on_connect(client, userdata, flags, rc):
-    # The callback for when the client receives a CONNACK response from the server.
-    print("Connected with result code "+str(rc))
-
-    # Subscribing in on_connect() means that if we lose the connection and
-    # reconnect then subscriptions will be renewed.
+    print("Connected to broker with result code "+str(rc))
     client.subscribe("switch/+/set")
 
 
 def on_message(client, userdata, msg):
-    # The callback for when a PUBLISH message is received from the server.
-    # Split the topic to determine the correct path
-    print(msg.topic+" "+str(msg.payload))
+    print(f'{msg.topic} {str(msg.payload)}')
 
     # command_topic: "switch/1/set"
     try:
@@ -59,6 +50,7 @@ def on_message(client, userdata, msg):
                 relays[switch_number].set_state(state)
 
     except IndexError:
+        # Ignore index exceptions rather than check if the relay id is valid.
         pass
 
 
@@ -72,5 +64,5 @@ if __name__ == '__main__':
         client.loop_forever()
 
     except KeyboardInterrupt:
-        print('Interrupted')
-        gpio.cleanup()
+        client.disconnect()
+        arduino.close()

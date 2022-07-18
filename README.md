@@ -77,3 +77,78 @@ This should return something like
 
 Jul 17 12:30:21 raspberrypi systemd[1]: Started Systemd service to my custom relay or light control software.
 ```
+
+## Home Assistant Configuration
+
+```yaml
+mqtt:
+  switch:
+  - command_topic: "switch/1/set"
+    name: "Relay 1"
+  - command_topic: "switch/2/set"
+    name: "Relay 2"
+  - command_topic: "switch/3/set"
+    name: "Relay 3"
+  - command_topic: "switch/4/set"
+    name: "Relay 4"
+```
+
+## Arduino PINs
+
+| PIN Number | Working? |
+|---|---|
+| 0 | no - tied to serial? |
+| 1 | no - tied to serial? |
+| 2 | yes |
+| 3 | yes |
+| 4 | yes |
+| 5 | yes |
+| 6 | yes |
+| 7 | yes |
+| 8 | yes |
+| 9 | yes |
+| 10 | yes |
+| 11 | yes |
+| 12 | yes |
+| 13 | no - seems to be tied to LED? |
+| 14 | yes |
+| 15 | yes |
+| 16 | yes |
+| 17 | yes |
+| 18 | yes |
+| 19 | yes |
+| 20 | no - pulled high on startup? |
+| 21 | no - pulled high on startup? |
+| 22 | yes |
+| 23 | yes |
+| 24 | yes |
+| 25 | yes |
+| 26 | yes |
+| 27 | yes |
+| 28 | yes |
+| 29 | yes |
+| 30 | yes |
+| 31 | yes |
+| 32 | yes |
+| 33 | yes |
+| 34 | yes |
+| 35 | yes |
+| 36 | yes |
+| 37 | yes |
+| 38 | yes |
+| 39 | yes |
+| 40 | yes |
+| 41 | yes |
+| 42 | yes |
+| 43 | yes |
+| 44 | yes |
+| 45 | yes |
+| 46 | yes |
+| 47 | yes |
+| 48 | yes |
+| 49 | yes |
+| 50 | yes |
+| 51 | yes |
+| 52 | yes |
+| 53 | yes |
+

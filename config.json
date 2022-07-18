@@ -1,32 +1,32 @@
 {
-  "broker": "192.168.1.75",
+  "broker": "192.168.1.77",
   "delay_time_ms": 100,
   "relays": [
     {
       "id": "1",
-      "gpio_on": 7,
-      "gpio_off": 11,
+      "gpio_on": 2,
+      "gpio_off": 3,
       "relay_number": 13,
       "description": ""
     },
     {
       "id": "2",
-      "gpio_on": 12,
-      "gpio_off": 13,
+      "gpio_on": 4,
+      "gpio_off": 5,
       "relay_number": 14,
       "description": ""
     },
     {
       "id": "3",
-      "gpio_on": 15,
-      "gpio_off": 16,
+      "gpio_on": 6,
+      "gpio_off": 7,
       "relay_number": 15,
       "description": ""
     },
     {
       "id": "4",
-      "gpio_on": 18,
-      "gpio_off": 22,
+      "gpio_on": 8,
+      "gpio_off": 9,
       "relay_number": 16,
       "description": ""
     }
