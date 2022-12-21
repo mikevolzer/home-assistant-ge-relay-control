@@ -1,0 +1,100 @@
+
+mqtt:
+  light:
+  - unique_id: "relay_1"
+    command_topic: "switch/1/set"
+    availability: &availability_topic
+    - topic: "switch/available"
+    name: "Relay 1"
+  - unique_id: "relay_2"
+    command_topic: "switch/2/set"
+    availability: *availability_topic
+    name: "Relay 2"
+  - unique_id: "relay_3"
+    command_topic: "switch/3/set"
+    availability: *availability_topic
+    name: "Relay 3"
+  - unique_id: "relay_4"
+    command_topic: "switch/4/set"
+    availability: *availability_topic
+    name: "Relay 4"
+  - unique_id: "relay_5"
+    command_topic: "switch/5/set"
+    availability: *availability_topic
+    name: "Relay 5"
+  - unique_id: "relay_6"
+    command_topic: "switch/6/set"
+    availability: *availability_topic
+    name: "Relay 6"
+  - unique_id: "relay_7"
+    command_topic: "switch/7/set"
+    availability: *availability_topic
+    name: "Relay 7"
+  - unique_id: "relay_8"
+    command_topic: "switch/8/set"
+    availability: *availability_topic
+    name: "Relay 8"
+  - unique_id: "relay_9"
+    command_topic: "switch/9/set"
+    availability: *availability_topic
+    name: "Relay 9"
+  - unique_id: "relay_10"
+    command_topic: "switch/10/set"
+    availability: *availability_topic
+    name: "Relay 10"
+  - unique_id: "relay_11"
+    command_topic: "switch/11/set"
+    availability: *availability_topic
+    name: "Relay 11"
+  - unique_id: "relay_12"
+    command_topic: "switch/12/set"
+    availability: *availability_topic
+    name: "Relay 12"
+  - unique_id: "relay_13"
+    command_topic: "switch/13/set"
+    availability: *availability_topic
+    name: "Relay 13"
+  - unique_id: "relay_14"
+    command_topic: "switch/14/set"
+    availability: *availability_topic
+    name: "Relay 14"
+  - unique_id: "relay_15"
+    command_topic: "switch/15/set"
+    availability: *availability_topic
+    name: "Relay 15"
+  - unique_id: "relay_16"
+    command_topic: "switch/16/set"
+    availability: *availability_topic
+    name: "Relay 16"
+  - unique_id: "relay_17"
+    command_topic: "switch/17/set"
+    availability: *availability_topic
+    name: "Relay 17"
+  - unique_id: "relay_18"
+    command_topic: "switch/18/set"
+    availability: *availability_topic
+    name: "Relay 18"
+  - unique_id: "relay_19"
+    command_topic: "switch/19/set"
+    availability: *availability_topic
+    name: "Relay 19"
+  - unique_id: "relay_20"
+    command_topic: "switch/20/set"
+    availability: *availability_topic
+    name: "Relay 20"
+  - unique_id: "relay_21"
+    command_topic: "switch/21/set"
+    availability: *availability_topic
+    name: "Relay 21"
+  - unique_id: "relay_22"
+    command_topic: "switch/22/set"
+    availability: *availability_topic
+    name: "Relay 22"
+  - unique_id: "relay_23"
+    command_topic: "switch/23/set"
+    availability: *availability_topic
+    name: "Relay 23"
+  - unique_id: "relay_24"
+    command_topic: "switch/24/set"
+    availability: *availability_topic
+    name: "Relay 24"

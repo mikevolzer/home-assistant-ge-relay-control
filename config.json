@@ -1,34 +1,166 @@
 {
-  "broker": "192.168.1.77",
+  "broker": "192.168.1.3",
+  "username": "lights",
+  "password": "lights",
   "delay_time_ms": 100,
   "relays": [
     {
       "id": "1",
-      "gpio_on": 2,
-      "gpio_off": 3,
-      "relay_number": 13,
-      "description": ""
+      "gpio_on": 8,
+      "gpio_off": 9,
+      "description": "outside",
+      "area": "Outside"
     },
     {
       "id": "2",
-      "gpio_on": 4,
-      "gpio_off": 5,
-      "relay_number": 14,
-      "description": ""
+      "gpio_on": 10,
+      "gpio_off": 11,
+      "description": "outside",
+      "area": "Outside"
     },
     {
       "id": "3",
-      "gpio_on": 6,
-      "gpio_off": 7,
-      "relay_number": 15,
-      "description": ""
+      "gpio_on": 12,
+      "gpio_off": 13,
+      "description": "outside",
+      "area": "Outside"
     },
     {
       "id": "4",
-      "gpio_on": 8,
-      "gpio_off": 9,
-      "relay_number": 16,
+      "gpio_on": 2,
+      "gpio_off": 3,
+      "description": "outside",
+      "area": "Outside"
+    },
+    {
+      "id": "5",
+      "gpio_on": 4,
+      "gpio_off": 5,
+      "description": "Garage above cars",
+      "area": "Garage"
+    },
+    {
+      "id": "6",
+      "gpio_on": 6,
+      "gpio_off": 7,
+      "description": "Driveway Front",
+      "area": "Outside"
+    },
+    {
+      "id": "7",
+      "gpio_on": 17,
+      "gpio_off": 16,
       "description": ""
+    },
+    {
+      "id": "8",
+      "gpio_on": 15,
+      "gpio_off": 14,
+      "description": "Front eaves",
+      "area": "Outside"
+    },
+    {
+      "id": "9",
+      "gpio_on": 27,
+      "gpio_off": 26,
+      "description": "Side entrance",
+      "area": "Side entrance"
+    },
+    {
+      "id": "10",
+      "gpio_on": 25,
+      "gpio_off": 24,
+      "description": ""
+    },
+    {
+      "id": "11",
+      "gpio_on": 23,
+      "gpio_off": 22,
+      "description": "Kitchen table",
+      "area": "Kitchen"
+    },
+    {
+      "id": "12",
+      "gpio_on": 21,
+      "gpio_off": 20,
+      "description": "Living room ceiling lights",
+      "area": "Living room"
+    },
+    {
+      "id": "13",
+      "gpio_on": 19,
+      "gpio_off": 18,
+      "description": ""
+    },
+    {
+      "id": "14",
+      "gpio_on": 33,
+      "gpio_off": 32,
+      "description": "Guest hallway"
+    },
+    {
+      "id": "15",
+      "gpio_on": 31,
+      "gpio_off": 30,
+      "description": ""
+    },
+    {
+      "id": "16",
+      "gpio_on": 29,
+      "gpio_off": 28,
+      "description": ""
+    },
+    {
+      "id": "17",
+      "gpio_on": 52,
+      "gpio_off": 50,
+      "description": ""
+    },
+    {
+      "id": "18",
+      "gpio_on": 48,
+      "gpio_off": 46,
+      "description": ""
+    },
+    {
+      "id": "19",
+      "gpio_on": 44,
+      "gpio_off": 42,
+      "description": "Kitchen counter",
+      "area": "Kitchen"
+    },
+    {
+      "id": "20",
+      "gpio_on": 40,
+      "gpio_off": 38,
+      "description": "Front hallway",
+      "area": "Entrance"
+    },
+    {
+      "id": "21",
+      "gpio_on": 36,
+      "gpio_off": 34,
+      "description": ""
+    },
+    {
+      "id": "22",
+      "gpio_on": 53,
+      "gpio_off": 51,
+      "description": "Backdoor sconces",
+      "area": "Outside"
+    },
+    {
+      "id": "23",
+      "gpio_on": 49,
+      "gpio_off": 47,
+      "description": ""
+    },
+    {
+      "id": "24",
+      "gpio_on": 45,
+      "gpio_off": 43,
+      "description": "Family room downlights",
+      "area": "Family room"
     }
   ]
 }

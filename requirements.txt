@@ -1,2 +1,10 @@
+autopep8==1.6.0
+future==0.18.2
+iso8601==1.0.2
 paho-mqtt==1.6.1
+pycodestyle==2.8.0
 pyserial==3.5
+PyYAML==6.0
+RPi.GPIO==0.7.1
+serial==0.0.97
+toml==0.10.2
