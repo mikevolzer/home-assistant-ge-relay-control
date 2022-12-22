@@ -81,7 +81,7 @@ def on_connect(client, userdata, flags, rc):
 
     publish_homeassistant_config_info(client)
 
-    client.publish(f"{ROOT_TOPIC}/available", "online", 1)
+    client.publish(f"{ROOT_TOPIC}/available", "online", 1, True)
     client.subscribe(f"{ROOT_TOPIC}/+/switch")
 
 
