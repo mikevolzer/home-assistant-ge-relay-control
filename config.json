@@ -8,28 +8,28 @@
       "id": "1",
       "gpio_on": 8,
       "gpio_off": 9,
-      "description": "outside",
+      "description": "Front eaves",
       "area": "Outside"
     },
     {
       "id": "2",
       "gpio_on": 10,
       "gpio_off": 11,
-      "description": "outside",
+      "description": "Outside spot",
       "area": "Outside"
     },
     {
       "id": "3",
       "gpio_on": 12,
       "gpio_off": 13,
-      "description": "outside",
+      "description": "Back eaves",
       "area": "Outside"
     },
     {
       "id": "4",
       "gpio_on": 2,
       "gpio_off": 3,
-      "description": "outside",
+      "description": "Front patio",
       "area": "Outside"
     },
     {
@@ -56,7 +56,7 @@
       "id": "8",
       "gpio_on": 15,
       "gpio_off": 14,
-      "description": "Front eaves",
+      "description": "Front side eaves",
       "area": "Outside"
     },
     {
