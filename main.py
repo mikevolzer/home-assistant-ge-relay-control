@@ -14,14 +14,14 @@ AVAILABLE_TOPIC = f"{ROOT_TOPIC}/available"
 
 
 class Relay:
-    def __init__(self, name, description, area, gpio_on, gpio_off):
+    def __init__(self, name: str, description: str, area: str, gpio_on: int, gpio_off: int):
         self.name = name
         self.description = description
         self.area = area
         self.gpio_on = gpio_on
         self.gpio_off = gpio_off
 
-    def set_state(self, state):
+    def set_state(self, state: bool):
         pin_to_pulse = self.gpio_on if state else self.gpio_off
         arduino.write(f'<{pin_to_pulse}>'.encode())
         time.sleep(0.2)
@@ -50,7 +50,8 @@ with open('config.json', 'r') as f:
             relay["id"], relay["description"], area, relay["gpio_on"], relay["gpio_off"])
 
 
-def publish_homeassistant_config_info(client):
+def publish_homeassistant_config_info(client: mqtt.Client):
+    print("Publishing Home Assistant config info")
     for id, relay in relays.items():
         config = {
             "~": f"{ROOT_TOPIC}/{id}",
@@ -61,31 +62,22 @@ def publish_homeassistant_config_info(client):
             },
             "name": relay.description if relay.description else id,
             "command_topic": "~/switch",
-            # "device": {
-            #     "identifiers": ["pi_light_controller"],
-            #     "manufacturer": "Mike Volzer",
-            #     "device": "pi_light_controller",
-            #     "via_device": "pi_light_controller",
-            #     "connections": [["mac", "02:5b:26:a8:dc:12"]],
-            # }
         }
 
-        # if relay.area:
-        #     config["device"]["suggested_area"] = relay.area
 
         client.publish(f"{ROOT_TOPIC}/{id}/config", json.dumps(config), 1)
 
 
-def on_connect(client, userdata, flags, rc):
-    print(f"Connected to broker with result code {rc}")
-
+def on_connect(client: mqtt.Client, userdata, flags, reason_code, properties):
+    # if not reason_code.is_failure:
+    print("Connection to MQTT broker succeeded")
     publish_homeassistant_config_info(client)
 
     client.publish(f"{ROOT_TOPIC}/available", "online", 1, True)
     client.subscribe(f"{ROOT_TOPIC}/+/switch")
 
 
-def on_message(client, userdata, msg):
+def on_message(client: mqtt.Client, userdata, msg):
     # command_topic: "homeassistant/light/relay_1/set"
     try:
         topic_path = msg.topic.split("/")
@@ -102,7 +94,7 @@ def on_message(client, userdata, msg):
 
 if __name__ == '__main__':
     try:
-        client = mqtt.Client()
+        client = mqtt.Client(callback_api_version=mqtt.CallbackAPIVersion.VERSION2)
         client.on_connect = on_connect
         client.on_message = on_message
 
