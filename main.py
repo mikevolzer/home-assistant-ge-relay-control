@@ -115,6 +115,13 @@ def on_connect(client: mqtt.Client, userdata, flags, reason_code, properties):
     client.subscribe(f"{ROOT_TOPIC}/+/switch")
 
 
+def on_disconnect(client: mqtt.Client, userdata, disconnect_flags, reason_code, properties):
+    if reason_code == 0:
+        logging.info("Disconnected from MQTT broker cleanly")
+    else:
+        logging.warning(f"Unexpected disconnect from MQTT broker: {reason_code}")
+
+
 def on_message(client: mqtt.Client, userdata, msg):
     # command_topic: "homeassistant/light/relay_1/set"
     try:
@@ -131,23 +138,27 @@ def on_message(client: mqtt.Client, userdata, msg):
 
 
 if __name__ == '__main__':
+    client = mqtt.Client(callback_api_version=mqtt.CallbackAPIVersion.VERSION2)
+    client.on_connect = on_connect
+    client.on_message = on_message
+    client.on_disconnect = on_disconnect
+
+    client.username_pw_set(USERNAME, PASSWORD)
+    client.will_set(AVAILABLE_TOPIC, "offline", 0, False)
+
+    while True:
+        try:
+            client.connect(BROKER_HOST, 1883, 10)
+            logging.info("Successfully connected to MQTT broker")
+            break
+        except OSError as e:
+            logging.error(f"Failed to connect to MQTT broker: {e}, retrying in 5 seconds")
+            time.sleep(5)
+
     try:
-        client = mqtt.Client(callback_api_version=mqtt.CallbackAPIVersion.VERSION2)
-        client.on_connect = on_connect
-        client.on_message = on_message
-
-        client.username_pw_set(USERNAME, PASSWORD)
-        client.will_set(AVAILABLE_TOPIC, "offline", 0, False)
-        client.connect(BROKER_HOST, 1883, 60)
         client.loop_forever()
-
     except KeyboardInterrupt:
         logging.info("Received keyboard interrupt, shutting down")
-        client.publish(AVAILABLE_TOPIC, "offline")
-        client.disconnect()
-        arduino_interface.close()
-    except OSError as e:
-        logging.error(f"OS error occurred: {e}")
         client.publish(AVAILABLE_TOPIC, "offline")
         client.disconnect()
         arduino_interface.close()
