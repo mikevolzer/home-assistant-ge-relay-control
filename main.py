@@ -2,7 +2,10 @@ import paho.mqtt.client as mqtt
 import time
 import json
 import serial
+import logging
 from abc import ABC, abstractmethod
+
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 
 RELAY_DELAY_TIME_MS = 100.0
@@ -28,7 +31,9 @@ class SerialArduino(ArduinoInterface):
         self.serial = serial.Serial(port, baudrate, timeout=0.1)
         time.sleep(0.1)
         if self.serial.isOpen():
-            print(f'{self.serial.port} connected!')
+            logging.info(f'{self.serial.port} connected!')
+        else:
+            logging.warning(f'Failed to connect to Arduino on {port}')
 
     def send_command(self, pin: int):
         self.serial.write(f'<{pin}>'.encode())
@@ -40,7 +45,7 @@ class SerialArduino(ArduinoInterface):
 
 class MockArduino(ArduinoInterface):
     def send_command(self, pin: int):
-        print(f"Mock: Sending command to pin {pin}")
+        logging.info(f"Mock: Sending command to pin {pin}")
 
 
 class Relay:
@@ -82,7 +87,7 @@ with open('config.json', 'r') as f:
 
 
 def publish_homeassistant_config_info(client: mqtt.Client):
-    print("Publishing Home Assistant config info")
+    logging.info("Publishing Home Assistant config info")
     for id, relay in relays.items():
         config = {
             "~": f"{ROOT_TOPIC}/{id}",
@@ -101,9 +106,9 @@ def publish_homeassistant_config_info(client: mqtt.Client):
 
 def on_connect(client: mqtt.Client, userdata, flags, reason_code, properties):
     if reason_code.is_failure:
-        print(f"Failed to connect to MQTT broker: {reason_code}")
+        logging.error(f"Failed to connect to MQTT broker: {reason_code}")
         return
-    print(f"Connected to MQTT broker: {reason_code}")
+    logging.info(f"Connected to MQTT broker: {reason_code}")
     publish_homeassistant_config_info(client)
 
     client.publish(f"{ROOT_TOPIC}/available", "online", 1, True)
@@ -119,10 +124,10 @@ def on_message(client: mqtt.Client, userdata, msg):
             if topic_path[3] == "switch":
                 state = msg.payload.decode("UTF-8") == "ON"
                 relays[relay_id].set_state(state)
-                print(f'{msg.topic} {str(msg.payload)}')
+                logging.info(f'{msg.topic} {str(msg.payload)}')
 
     except (KeyError, IndexError):
-        pass
+        logging.warning(f"Invalid message topic or payload: {msg.topic} {str(msg.payload)}")
 
 
 if __name__ == '__main__':
@@ -136,7 +141,13 @@ if __name__ == '__main__':
         client.connect(BROKER_HOST, 1883, 60)
         client.loop_forever()
 
-    except (KeyboardInterrupt, OSError):
+    except KeyboardInterrupt:
+        logging.info("Received keyboard interrupt, shutting down")
+        client.publish(AVAILABLE_TOPIC, "offline")
+        client.disconnect()
+        arduino_interface.close()
+    except OSError as e:
+        logging.error(f"OS error occurred: {e}")
         client.publish(AVAILABLE_TOPIC, "offline")
         client.disconnect()
         arduino_interface.close()
