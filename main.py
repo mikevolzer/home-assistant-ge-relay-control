@@ -104,22 +104,22 @@ def publish_homeassistant_config_info(client: mqtt.Client):
         client.publish(f"{ROOT_TOPIC}/{id}/config", json.dumps(config), 1)
 
 
-def on_connect(client: mqtt.Client, userdata, flags, reason_code, properties):
-    if reason_code.is_failure:
-        logging.error(f"Failed to connect to MQTT broker: {reason_code}")
-        return
-    logging.info(f"Connected to MQTT broker: {reason_code}")
-    publish_homeassistant_config_info(client)
+def on_connect(client, userdata, flags, rc):
+    if rc == 0:
+        logging.info("Connected to MQTT broker")
+        publish_homeassistant_config_info(client)
 
-    client.publish(f"{ROOT_TOPIC}/available", "online", 1, True)
-    client.subscribe(f"{ROOT_TOPIC}/+/switch")
+        client.publish(f"{ROOT_TOPIC}/available", "online", 1, True)
+        client.subscribe(f"{ROOT_TOPIC}/+/switch")
+    else:
+        logging.error(f"Failed to connect to MQTT broker: {rc}")
 
 
-def on_disconnect(client: mqtt.Client, userdata, disconnect_flags, reason_code, properties):
-    if reason_code == 0:
+def on_disconnect(client, userdata, rc):
+    if rc == 0:
         logging.info("Disconnected from MQTT broker cleanly")
     else:
-        logging.warning(f"Unexpected disconnect from MQTT broker: {reason_code}")
+        logging.warning(f"Unexpected disconnect from MQTT broker: {rc}")
 
 
 def on_message(client: mqtt.Client, userdata, msg):
@@ -138,7 +138,7 @@ def on_message(client: mqtt.Client, userdata, msg):
 
 
 if __name__ == '__main__':
-    client = mqtt.Client(callback_api_version=mqtt.CallbackAPIVersion.VERSION2)
+    client = mqtt.Client()
     client.on_connect = on_connect
     client.on_message = on_message
     client.on_disconnect = on_disconnect
