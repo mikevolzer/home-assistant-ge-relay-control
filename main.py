@@ -101,7 +101,7 @@ def publish_homeassistant_config_info(client: mqtt.Client):
         }
 
 
-        client.publish(f"{ROOT_TOPIC}/{id}/config", json.dumps(config), 1)
+        client.publish(f"{ROOT_TOPIC}/{id}/config", json.dumps(config), qos=1, retain=True)
 
 
 def on_connect(client, userdata, flags, rc):
@@ -109,7 +109,7 @@ def on_connect(client, userdata, flags, rc):
         logging.info("Connected to MQTT broker")
         publish_homeassistant_config_info(client)
 
-        client.publish(f"{ROOT_TOPIC}/available", "online", 1, True)
+        client.publish(f"{ROOT_TOPIC}/available", "online", qos=1, retain=True)
         client.subscribe(f"{ROOT_TOPIC}/+/switch")
     else:
         logging.error(f"Failed to connect to MQTT broker: {rc}")
@@ -159,6 +159,6 @@ if __name__ == '__main__':
         client.loop_forever()
     except KeyboardInterrupt:
         logging.info("Received keyboard interrupt, shutting down")
-        client.publish(AVAILABLE_TOPIC, "offline")
+        client.publish(AVAILABLE_TOPIC, "offline", qos=1, retain=True)
         client.disconnect()
         arduino_interface.close()
